@@ -17,7 +17,8 @@ def get_currency_list():
             iso = detail[3].get_text().strip()
             if (currency, iso) in currency_list:
                 continue
-            currency_list.append((currency, iso))
+            if len(iso) == 3:
+                currency_list.append((currency, iso))
         except:
             continue
     return currency_list
