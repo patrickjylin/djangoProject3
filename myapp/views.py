@@ -35,6 +35,29 @@ def view_currencies(request):
 
 def currency_selection(request):
     data = dict()
-    currencies =Currency.objects.all()
+    currencies = Currency.objects.all().order_by('long_name')
     data['currencies'] = currencies
     return render(request, "currency_selector.html", data)
+
+def exch_rate(request):
+    data=dict()
+    try:
+        currency1 = request.GET['currency_from']
+        currency2 = request.GET['currency_to']
+        c1 = Currency.objects.get(iso=currency1)
+        c2 = Currency.objects.get(iso=currency2)
+        support_functions.update_xrates(c1)
+        data['currency1'] = c1
+        data['currency2'] = c2
+        try:
+            rate = c1.rates_set.get(x_currency=c2.iso).rate
+            data['rate'] = rate
+        except:
+            data['rate'] = "Not Available"
+    except:
+        pass
+    return render(request, "exchange_detail.html", data)
+
+def test_html(request):
+    data=dict()
+    return render(request, "assignment2.html", data)

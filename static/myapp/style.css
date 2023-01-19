@@ -19,6 +19,6 @@ h1 {
 .lobster {
     color: coral;
     font-family: 'Manrope', sans-serif;
-    font-weight: 200;
-    font-size: 50px;
+    font-weight: 400;
+    /*font-size: 50px;*/
 }

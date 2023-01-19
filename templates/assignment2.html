@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment 2 - Patrick Lin</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'myapp/assignment2.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="jumbotron text-center" id="main-banner">
+    <p id="main-title">A Quick Explainer on Ballroom Dance</p>
+</div>
+
+<div class="container">
+    <h2 id="styles-title">There are 4 main styles in competitive ballroom dance, <br>with different dances in each style</h2>
+    <div class="row">
+        <div class="col-sm-3">
+            <h3>International Standard</h3>
+            <ul>
+                <li>Waltz</li>
+                <li>Tango</li>
+                <li>Viennese Waltz</li>
+                <li>Foxtrot</li>
+                <li>Quickstep</li>
+            </ul>
+            <img src="http://img-cdn.jg.jugem.jp/f02/2032714/20110327_1918122.jpg" width="100%">
+        </div>
+        <div class="col-sm-3">
+            <h3>International Latin</h3>
+            <ul>
+                <li>Chacha</li>
+                <li>Samba</li>
+                <li>Rumba</li>
+                <li>Paso Doble</li>
+                <li>Jive</li>
+            </ul>
+            <img src="https://static.wixstatic.com/media/78b6d0_dfea2f07d63b430db252da4cbb0c7e44~mv2.jpeg/v1/fill/w_640,h_640,fp_0.50_0.50,q_85,usm_0.66_1.00_0.01,enc_auto/78b6d0_dfea2f07d63b430db252da4cbb0c7e44~mv2.jpeg" width="100%">
+        </div>
+        <div class="col-sm-3">
+            <h3>American Smooth</h3>
+            <ul>
+                <li>Waltz</li>
+                <li>Tango</li>
+                <li>Foxtrot</li>
+                <li>Viennese Waltz</li>
+            </ul>
+            <img src="https://dancesportwebsites.s3.amazonaws.com/wp-content/uploads/sites/5/2021/08/23183702/IMG_8211.jpg" width="100%">
+        </div>
+        <div class="col-sm-3">
+            <h3>American Rhythm</h3>
+            <ul>
+                <li>Chacha</li>
+                <li>Rumba</li>
+                <li>Swing</li>
+                <li>Bolero</li>
+                <li>Mambo</li>
+            </ul>
+            <img src="https://production-next-images-cdn.thumbtack.com/i/439256832723664901/width/1024.jpeg" width="100%">
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <h3 id="table-heading">Each round consists of competitors dancing all 4 or 5 dances in a given style.
+        Each dance lasts for one minute and 30 seconds. An example round and standard timing of songs for the International
+        Standard style is shown below:</h3>
+    <table class="dance-table">
+        <tr>
+            <th>Dance</th>
+            <th>Duration</th>
+            <th>Tempo</th>
+        </tr>
+        <tr>
+            <td>Waltz</td>
+            <td>1:30</td>
+            <td>84 BPM</td>
+        </tr>
+        <tr>
+            <td>Tango</td>
+            <td>1:30</td>
+            <td>128 BPM</td>
+        </tr>
+        <tr>
+            <td>Viennese Waltz</td>
+            <td>1:30</td>
+            <td>170 BPM</td>
+        </tr>
+        <tr>
+            <td>Foxtrot</td>
+            <td>1:30</td>
+            <td>114 BPM</td>
+        </tr>
+        <tr>
+            <td>Quickstep</td>
+            <td>1:30</td>
+            <td>200 BPM</td>
+        </tr>
+    </table>
+
+</div>
+<br>
+<br>
+
+</body>
+</html>

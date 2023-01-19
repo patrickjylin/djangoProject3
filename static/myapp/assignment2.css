@@ -1,0 +1,32 @@
+td {
+    padding: 0 15px;
+    alignment: center;
+}
+
+th {
+    padding: 0 15px;
+}
+
+#main-title { /* use with id = "footer" */
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 40pt;
+    color: white;
+}
+
+#main-banner {
+    background-image: url("https://dsi.fusemetrix.com/common/inc_imageget.php?icc=4&sc=true&id=363&code=004114&showfull=true&defaulturl=https://dsi.fusemetrix.com/bespoke/no_image.jpg");
+    background-position-y: -200px;
+    min-height: 300px;
+}
+
+#styles-title {
+    text-align: center;
+}
+
+.lobster {
+    color: coral;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    /*font-size: 50px;*/
+}
