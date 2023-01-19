@@ -32,3 +32,9 @@ def view_currencies(request):
     c_list = Currency.objects.all()
     data['currencies'] = c_list
     return render(request, "currencies.html", context=data)
+
+def currency_selection(request):
+    data = dict()
+    currencies =Currency.objects.all()
+    data['currencies'] = currencies
+    return render(request, "currency_selector.html", data)
