@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from myapp.models import Currency, Holding
+from myapp.models import Currency, Holding, Airport
 class HoldingInLine(admin.TabularInline):
     fields = ('iso', 'value', 'buy_date')
     model = Holding
@@ -11,3 +11,8 @@ class CurrencyAdmin(admin.ModelAdmin):
     inlines = [HoldingInLine]
 
 admin.site.register(Currency, CurrencyAdmin)
+
+class AirportAdmin(admin.ModelAdmin):
+    fields = ('code', 'name', 'city', 'state', 'country')
+
+admin.site.register(Airport, AirportAdmin)

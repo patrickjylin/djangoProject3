@@ -39,6 +39,18 @@ class AccountHolder(models.Model):
     def __repr__(self):
         return self.user.username
 
+class City(models.Model):
+    name = models.CharField(max_length=50)
+    wiki_link = models.URLField()
+    latitude = models.FloatField(null=False)
+    longitude = models.FloatField(null=False)
+
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return self.name + " " + str(self.latitude) + " " + str(self.longitude)
+
 class Airport(models.Model):
     code = models.CharField(max_length=3)
     name = models.CharField(max_length=50)
@@ -48,10 +60,10 @@ class Airport(models.Model):
 
     def __repr__(self):
         if len(self.state) > 0:
-            return self.code + " - " + self.city + " " + self.name + ", " + self.state + ", " + self.country
-        return self.code + " - " + self.city + " " + self.name + ", " + self.country
+            return self.code + " - " + self.name + " (" + self.city + ", " + self.state + ", " + self.country + ")"
+        return self.code + " - " + self.name + " (" + self.name + ", " + self.country + ")"
 
     def __str__(self):
         if len(self.state) > 0:
-            return self.code + " - " + self.city + " " + self.name + ", " + self.state + ", " + self.country
-        return self.code + " - " + self.city + " " + self.name + ", " + self.country
+            return self.code + " - " + self.name + " (" + self.city + ", " + self.state + ", " + self.country + ")"
+        return self.code + " - " + self.name + " (" + self.name + ", " + self.country + ")"
