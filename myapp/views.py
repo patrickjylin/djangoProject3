@@ -102,7 +102,7 @@ def app_maintenance(request):
 
 def view_airports(request):
     data = dict()
-    a_list = Airport.objects.all().sort()
+    a_list = Airport.objects.all().order_by('city', 'state', 'country', 'name')
     data['airports'] = a_list
     return render(request, "airports.html", context=data)
 

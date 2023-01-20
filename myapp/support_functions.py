@@ -245,3 +245,36 @@ def add_airports(airport_list):
 
         a.save()
 
+def ticket_search():
+    import requests
+    from bs4 import BeautifulSoup
+
+    # variables #
+    origin = "JFK"  # needs to be an airport code
+    dest = "NRT"  # needs to be an airport code
+    date = "2023-02-14"
+
+    # embed the above variables into the URL of "skyticket.com" #
+    # fixed parameter = one-way, economy, 1 adult, 0 children, 0 infants #
+    target_url = "https://skyticket.com/international-flights/ia_fare_result_mix.php?select_career_only_flg=&trip_type=1&dep_port0=" + origin + "&arr_port0=" + dest + "&dep_date%5B%5D=" + date + "&cabin_class=Y&adt_pax=1"
+
+    response_test = requests.get(target_url)
+    soup_test = BeautifulSoup(response_test.content)
+
+    airline_list = []
+    for airline in soup_test.find_all('div', class_="list_price clearfix"):
+        additional_entry = airline.get_text()[2:].split("\t")[0]
+        airline_list.append(additional_entry)
+
+    price_list = []
+    for price in soup_test.find_all('span', class_="price_aside"):
+        price_list.append(float(price.get_text().replace(",", "")[3:]))
+
+    # merge "airline_list" & "price_list" #
+    travel_dict = {}
+    for i in range(len(airline_list)):
+        travel_dict[airline_list[i]] = price_list[i]
+
+    min_value = min(travel_dict.values())
+    print(min_value)
+
