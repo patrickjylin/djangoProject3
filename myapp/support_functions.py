@@ -278,3 +278,30 @@ def ticket_search():
     min_value = min(travel_dict.values())
     print(min_value)
 
+def recommend_things_to_do(city):
+    import requests
+    from bs4 import BeautifulSoup
+
+    search_word = 'tripadvisor' + city
+    pages_num = 2
+    url_for_location_id = f'https://www.google.co.jp/search?hl=ja&num={pages_num}&q={search_word}'
+
+    request = requests.get(url_for_location_id)
+    soup = BeautifulSoup(request.text, "html.parser")
+    search_site_list = soup.select('div.kCrYT > a')
+
+    for rank, site in zip(range(1, pages_num), search_site_list):
+        part_of_site_url = site['href'].replace('/url?q=', '')[36:]
+        tripadvisor_location_id = part_of_site_url.split('-')[0]
+
+    url_for_recommendation = f'https://www.tripadvisor.com/Attractions-{tripadvisor_location_id}'
+
+    things_to_do = []
+    user_agent = ({
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) \AppleWebKit/537.36 (KHTML, like Gecko) \Chrome/90.0.4430.212 Safari/537.36',
+        'Accept-Language': 'en-US, en;q=0.5'})
+    request = requests.get(url_for_recommendation, headers=user_agent)
+
+    for name in BeautifulSoup(request.text, 'html.parser').findAll('div', {'class': 'XfVdV o AIbhI'}):
+        things_to_do.append(name.text.strip())
+    return things_to_do
