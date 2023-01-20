@@ -13,37 +13,33 @@
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container">
+  <div class="container" id="nav-container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#"><img src="{% static 'myapp/CBSBanner.png' %}" width="40px"></a>
+      <a class="navbar-brand" href="/home">
+          <!--<img src="{% static 'myapp/CBSBanner.png' %}" width="40px">-->
+          FlyAnywhere
+      </a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">ABOUT</a></li>
-        <li><a href="#">SERVICES</a></li>
-        <li><a href="#">PORTFOLIO</a></li>
-        <li><a href="#">PRICING</a></li>
-        <li><a href="#">CONTACT</a></li>
+        {% if user.username %}
+          <li><a href="{% url 'home' %}" class="user-buttons">Welcome, {{ user.username|capfirst }} </a></li>
+          <li><a href="{% url 'logout' %}" class="user-buttons">Logout</a></li>
+        {% else %}
+        <li><a href="{% url 'register_user' %}" class="user-buttons">Register</a></li>
+            <li><a href="{% url 'login' %}" class="user-buttons">Login</a></li>
+          {% endif %}
       </ul>
     </div>
   </div>
 </nav>
 <!--<img src='{% static "myapp/CBSBanner.png" %}' alt="image" width="400px">-->
-<span style="float:right;">
-    {% if user.username %}
-    <span class="large-font">Hello {{ user.username }}!</span><br>
-        <a href="{% url 'logout' %}"><button>logout</button></a>
-    {% else %}
-    <span class="large-font">Hello Guest!</span><br>
-    <a href="{% url 'login' %}"><button>login</button></a>/
-        <a href="{% url 'register_user' %}"><button>register</button></a>
-    {% endif %}
-</span>
+
 <h1 class="large-font">Welcome!</h1>
 {% block content %}
     <-- This is where the page content will go! -->
