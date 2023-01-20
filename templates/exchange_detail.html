@@ -3,4 +3,10 @@
 You are exchanging {{ currency1.long_name }} to {{ currency2.long_name }}.
 The current exchange rate for 1 unit of {{ currency1.iso}}
 is {{ rate }} units of {{ currency2.iso }}
+    <p>
+    You have looked at the following currencies: <br>
+    {% for c in currencies_visited %}
+        {{ c.long_name }}<br>
+    {% endfor %}
+    </p>
 {% endblock %}

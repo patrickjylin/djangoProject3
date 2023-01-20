@@ -73,3 +73,85 @@ def update_xrates(currency):
             rate_object.save()
     except:
         pass
+
+def get_airport_list():
+    airport_list = list()
+    import requests
+    from bs4 import BeautifulSoup
+    url = "http://www.airportcodes.org/"
+    response = requests.get(url)
+    if not response.status_code == 200:
+        return airport_list
+    soup = BeautifulSoup(response.content)
+
+    #Get the list of Canadian province abbreviations from the airportcodes webpage
+    minor_divs = soup.find_all('div', class_='minor')
+    can_states_list = list()
+    for j in minor_divs[1].stripped_strings:
+        can_states_list.append(j[0:2])
+
+    #Get the list of US state abbreviations from the FAA website
+    url_states = "https://www.faa.gov/air_traffic/publications/atpubs/cnt_html/appendix_a.html"
+    response_states = requests.get(url_states)
+    soup_states = BeautifulSoup(response_states.content)
+
+    us_state_list = list()
+    for item in soup_states.find_all('td'):
+        text = item.get_text().strip()
+        if len(text) == 2:
+            us_state_list.append(text)
+
+    data_lines = list()
+    for string in soup.stripped_strings:
+        if "(" in string and ")" in string:
+            data_lines.append(string)
+
+    for line in data_lines:
+        data_dict = dict()
+        airport_code = ''
+        if line.find(',') != -1:
+            dash_pos = line.find(' - ')
+            open_paren_pos = line.find('(')
+            close_paren_pos = line.find(')')
+            first_comma_pos = line.find(',')
+            last_comma_pos = line.rfind(',')
+
+            airport_code = line[open_paren_pos + 1: close_paren_pos]
+
+            if ', (' in line and dash_pos == -1:
+                state_or_country = line[first_comma_pos + 2: last_comma_pos]
+                airport_name = line[0: first_comma_pos]
+                city = airport_name
+            elif ', (' in line and dash_pos != -1:
+                state_or_country = line[first_comma_pos + 2: dash_pos - 1]
+                airport_name = line[dash_pos + 3: last_comma_pos]
+                city = line[0: first_comma_pos]
+            elif dash_pos != -1:
+                state_or_country = line[last_comma_pos + 2: dash_pos]
+                airport_name = line[dash_pos + 3: open_paren_pos - 1]
+                city = line[0: first_comma_pos]
+            else:
+                state_or_country = line[last_comma_pos + 2: open_paren_pos - 1]
+                airport_name = line[0: first_comma_pos]
+                city = airport_name
+
+        if state_or_country in us_state_list:
+            state = state_or_country
+            country = 'United States'
+        elif state_or_country in can_states_list:
+            state = state_or_country
+            country = 'Canada'
+        else:
+            state = ''
+            country = state_or_country
+
+        data_dict["code"] = airport_code
+        data_dict["name"] = airport_name
+        data_dict["city"] = city
+        data_dict["state"] = state
+        data_dict["country"] = country
+
+        if ' Bus' not in airport_name and 'service' not in airport_name:
+            print(airport_code + ': ' + city + ' - ' + airport_name + ' - ' + state + ' ' + country)
+            airport_list.append(data_dict)
+    return airport_list

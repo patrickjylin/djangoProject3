@@ -12,7 +12,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-<h1 class=“large-font">Welcome!</h1>
+<img src='{% static "myapp/CBSBanner.png" %}' alt="image" width="400px">
+<span style="float:right;">
+    {% if user.username %}
+    <span class="large-font">Hello {{ user.username }}!</span><br>
+        <a href="{% url 'logout' %}"><button>logout</button></a>
+    {% else %}
+    <span class="large-font">Hello Guest!</span><br>
+    <a href="{% url 'login' %}"><button>login</button></a>/
+        <a href="{% url 'register_user' %}"><button>register</button></a>
+    {% endif %}
+</span>
+<h1 class="large-font">Welcome!</h1>
 {% block content %}
     <-- This is where the page content will go! -->
 {% endblock %}

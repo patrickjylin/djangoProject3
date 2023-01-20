@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Currency(models.Model):
@@ -28,3 +29,29 @@ class Rates(models.Model):
         return self.currency.iso + " " + self.x_currency + " " + str(self.rate)
     def __str__(self):
         return self.currency.iso + " " + self.x_currency + " " + str(self.rate)
+
+class AccountHolder(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    date_of_birth = models.DateField()
+    currencies_visited = models.ManyToManyField(Currency)
+    def __str__(self):
+        return self.user.username
+    def __repr__(self):
+        return self.user.username
+
+class Airport(models.Model):
+    code = models.CharField(max_length=3)
+    name = models.CharField(max_length=50)
+    city = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    country = models.CharField(max_length=50)
+
+    def __repr__(self):
+        if len(self.state) > 0:
+            return self.code + " - " + self.city + " " + self.name + ", " + self.state + ", " + self.country
+        return self.code + " - " + self.city + " " + self.name + ", " + self.country
+
+    def __str__(self):
+        if len(self.state) > 0:
+            return self.code + " - " + self.city + " " + self.name + ", " + self.state + ", " + self.country
+        return self.code + " - " + self.city + " " + self.name + ", " + self.country
