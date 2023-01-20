@@ -244,3 +244,4 @@ def add_airports(airport_list):
             a = Airport(code=airport_code, name=airport_name, city=airport_city, state=airport_state, country=airport_country)
 
         a.save()
+

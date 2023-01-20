@@ -16,3 +16,4 @@ class AirportAdmin(admin.ModelAdmin):
     fields = ('code', 'name', 'city', 'state', 'country')
 
 admin.site.register(Airport, AirportAdmin)
+

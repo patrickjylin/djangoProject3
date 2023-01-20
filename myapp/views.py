@@ -151,3 +151,4 @@ def map(request):
         m = m._repr_html_
         data['m'] = m
     return render(request, "map.html", context=data)
+
