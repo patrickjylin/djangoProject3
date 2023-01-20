@@ -41,7 +41,7 @@ class AccountHolder(models.Model):
 
 class City(models.Model):
     name = models.CharField(max_length=50)
-    wiki_link = models.URLField()
+    wiki_link = models.URLField(default='')
     latitude = models.FloatField(null=False)
     longitude = models.FloatField(null=False)
 
