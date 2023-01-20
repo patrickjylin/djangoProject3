@@ -137,6 +137,7 @@ def map(request):
         pass
 
     try:
+        number_of_cities = int(request.GET["number_of_cities"])
         if number_of_cities > 0:
             names = list()
             for i in range(number_of_cities):

@@ -4,6 +4,12 @@
     <div class="row">
         <div class="col-md-6">
             <h3 class="text-justify">Plan your Journey</h3>
+        {% if visiting_cities %}
+            You are planning to visit the following cities:<p></p>
+            {% for city in visiting_cities %}
+            {{ city }}<br>
+            {% endfor %}
+        {% else %}
             {% if number_of_cities > 0 %}
             <form action="" method="get">
                 Enter the names of the cities you want to visit:<br>
@@ -21,6 +27,7 @@
                 <input type="submit" value="submit">
             </form>
             {% endif %}
+        {% endif %}
         </div>
         <div class="col-md-6">
             <h3 class="text-center">The Map</h3>
