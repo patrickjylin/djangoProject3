@@ -256,35 +256,53 @@ def ticket_search(origin_code, random_airport, departure_date, budget):
     response_test = requests.get(target_url)
     soup_test = BeautifulSoup(response_test.content)
 
-    airline_list = []
-    for airline in soup_test.find_all('div', class_="list_price clearfix"):
-        additional_entry = airline.get_text()[2:].split("\t")[0]
-        airline_list.append(additional_entry)
+    if "There are no flights matching your search preferences. Please change your flight criteria and search again." in soup_test.stripped_strings:
+        return []
 
-    price_list = []
+    cheapest_price_text = soup_test.find('li', text='Cheapest Plan').find_next_sibling().get_text()
+    cheapest_price = float(cheapest_price_text.replace(",","").replace("~","")[3:])
+
+    if cheapest_price > budget:
+        return ["Too expensive", cheapest_price]
+
+    index = 0
+
     for price in soup_test.find_all('span', class_="price_aside"):
-        price_list.append(float(price.get_text().replace(",","")[3:]))
+        if float(price.get_text().replace(",","")[3:]) == cheapest_price:
+            break
+        index += 1
+
+    airline = soup_test.find_all('div', class_="list_price clearfix")[index].get_text()[2:].split("\t")[0]
+
+    #airline_list = []
+    #for airline in soup_test.find_all('div', class_="list_price clearfix"):
+    #    additional_entry = airline.get_text()[2:].split("\t")[0]
+    #    airline_list.append(additional_entry)
+
+    #price_list = []
+    #for price in soup_test.find_all('span', class_="price_aside"):
+    #    price_list.append(float(price.get_text().replace(",","")[3:]))
 
     # merge "airline_list" & "price_list" #
-    travel_dict = {}
-    for i in range(len(airline_list)):
-        travel_dict[airline_list[i]] = price_list[i]
+    #travel_dict = {}
+    #for i in range(len(airline_list)):
+    #    travel_dict[airline_list[i]] = price_list[i]
+
+    #try:
+    #    min_value = min(travel_dict.values())
+    #except:
+    #    min_value = ""
+
+    #flight = ""
+    #for t in travel_dict.keys():
+    #    if travel_dict[t] == min_value:
+    #        flight = t
+
+    min_ticket_price = [airline, cheapest_price]
 
     try:
-        min_value = min(travel_dict.values())
-    except:
-        min_value = ""
 
-    flight = ""
-    for t in travel_dict.keys():
-        if travel_dict[t] == min_value:
-            flight = t
-
-    min_ticket_price = [flight,min_value]
-
-    try:
-        if min_ticket_price[1] <= budget:
-             return min_ticket_price
+        return min_ticket_price
     except:
         return min_ticket_price
 
@@ -368,4 +386,4 @@ def random_suggestion(origin_code, departure_date, budget, past_destination_airp
             except:
                 continue
 
-    return []
+    return {}
