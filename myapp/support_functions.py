@@ -341,20 +341,31 @@ def random_suggestion(origin_code, departure_date, budget, past_destination_airp
     import random
     suggestion_list = {}
 
-    while True:
-        random_airport = random.choice(get_airport_list())['code']
+    airport_query_set = Airport.objects.all().values('code')
+    airport_list = list(airport_query_set)
+    random.shuffle(airport_list)
+    airport_list = airport_list[0:10]
+    print(airport_list)
+
+    for i in range(len(airport_list)):
+        random_airport = airport_list[i]['code']
         if (random_airport in past_destination_airport_list) or (random_airport == origin_code):
             continue
         else:
             try:
-                prechecked_price = ticket_search(origin_code, random_airport, departure_date, budget)[1]
-                suggestion_list['destination_airport_code'] = random_airport
-                suggestion_list['price'] = prechecked_price
-                suggestion_list['airline'] = ticket_search(origin_code, random_airport, departure_date, budget)[0]
-                if prechecked_price == '':
-                    continue
-                else:
+                search_result = ticket_search(origin_code, random_airport, departure_date, budget)
+                print(search_result)
+                prechecked_price = search_result[1]
+
+                if prechecked_price <= budget:
+                    suggestion_list['destination_airport_code'] = random_airport
+                    suggestion_list['price'] = prechecked_price
+                    suggestion_list['airline'] = search_result[0]
                     return suggestion_list
                     break
+                else:
+                    continue
             except:
                 continue
+
+    return []

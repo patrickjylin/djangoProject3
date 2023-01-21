@@ -156,18 +156,22 @@ def wander(request):
     from datetime import date
     try:
         origin = request.GET['origin']
-        dep_date_str = request.GET['dep_date']
-        budget = request.GET['budget']
+        origin = origin[0:3]
+        dep_date = request.GET['dep_date']
+        budget = float(request.GET['budget'])
         print(origin)
-        print(dep_date_str)
+        print(dep_date)
         print(budget)
         #dep_date = date(dep_date_str[0:4], dep_date_str[5:7], dep_date_str[9:11])
 
         try:
             user = request.user
+            print(user.is_authenticated)
             if user.is_authenticated:
-                # placeholder for wander function
-                data['suggestion'] = []
+                print("reached this step")
+                wander_result = support_functions.random_suggestion(origin, dep_date, budget, [])
+                print(wander_result)
+                data = wander_result
                 return render(request, "suggestion.html", context=data)
 
             return render(request, "register_prompt.html", context=data)
