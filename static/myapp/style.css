@@ -1,5 +1,46 @@
 h1 {
-    color: #46c3ff;
+    font-family: 'Manrope';
+    font-weight: 300;
+}
+
+h2 {
+    font-family: 'Manrope'
+}
+
+h3 {
+    font-family: 'Manrope'
+}
+
+p {
+    font-family: 'Manrope'
+}
+
+input {
+    font-family: 'Manrope';
+}
+
+button {
+    font-family: 'Manrope'
+}
+
+body {
+    padding-top: 60px;
+}
+
+.btn, btn-default {
+    background-color: black;
+    color: white;
+}
+
+.jumbotron h1 {
+    color: #fff;
+    padding-top: 110px;
+    margin-bottom: 30px;
+
+}
+
+.form-control {
+
 }
 
 #footer { /* use with id = "footer" */
@@ -11,9 +52,12 @@ h1 {
     font-size: xx-small;
 }
 
-.large-font { /* use with class="large-font" */
-    font-size: large;
-    color: crimson;
+.input-group {
+    display: table;
+}
+
+.form-control {
+    display: table-cell;
 }
 
 .lobster {
@@ -27,33 +71,79 @@ h1 {
     width: 100%;
 }
 
-.user-buttons {
-    background-color: #fff;
-}
-
 .navbar {
   margin-bottom: 0;
   background-color: #fff;
   z-index: 9999;
   border: 0;
   font-size: 16px !important;
-  line-height: 2.42857143 !important;
+  line-height: 50px !important;
   letter-spacing: 0.5px;
   border-radius: 0;
     font-family: 'Manrope', sans-serif;
 }
 
+.navbar-brand {
+    font-weight: 600;
+    /*min-height: 60px;*/
+}
+
 .navbar li a, .navbar .navbar-brand {
   color: #000 !important;
+    transition: 0.3s;
+    line-height: 50px;
 }
 
 .navbar-nav li a:hover, .navbar-nav li.active a {
   color: #fff !important;
-  background-color: #09b1ec !important;
+  background-color: #000 !important;
+    transition: 0.3s;
 }
 
 .navbar-default .navbar-toggle {
   border-color: transparent;
   color: #fff !important;
+
+}
+
+#main-banner {
+    background-image: url("https://idsb.tmgrup.com.tr/ly/uploads/images/2021/09/24/146502.jpg");
+    background-position-y: bottom;
+    background-size: cover;
+    min-height: 600px;
+}
+
+.slideanim {visibility:hidden;}
+.slide {
+  /* The name of the animation */
+  animation-name: slide;
+  -webkit-animation-name: slide;
+  /* The duration of the animation */
+  animation-duration: 1s;
+  -webkit-animation-duration: 1s;
+  /* Make the element visible */
+  visibility: visible;
+}
+
+/* Go from 0% to 100% opacity (see-through) and specify the percentage from when to slide in the element along the Y-axis */
+@keyframes slide {
+  0% {
+    opacity: 0;
+    transform: translateY(70%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+@-webkit-keyframes slide {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(70%);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0%);
+  }
 }
 
