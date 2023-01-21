@@ -340,20 +340,24 @@ def recommend_attraction(destination_city):
 def random_suggestion(origin_code, departure_date, budget, past_destination_airport_list):
     import random
     suggestion_list = {}
+    random_list = random.choices(get_airport_list(), k=10)
 
-    while True:
-        random_airport = random.choice(get_airport_list())['code']
+    for i in range(10):
+        random_airport = random.choice(random_list)['code']
+        print(random_airport)
         if (random_airport in past_destination_airport_list) or (random_airport == origin_code):
             continue
         else:
             try:
                 prechecked_price = ticket_search(origin_code, random_airport, departure_date, budget)[1]
-                suggestion_list['destination_airport_code'] = random_airport
+                print(prechecked_price)
                 suggestion_list['price'] = prechecked_price
-                suggestion_list['airline'] = ticket_search(origin_code, random_airport, departure_date, budget)[0]
                 if prechecked_price == '':
                     continue
                 else:
+                    suggestion_list['airline'] = ticket_search(origin_code, random_airport, departure_date, budget)[0]
+                    suggestion_list['destination_airport_code'] = random_airport
+                    print(suggestion_list['airline'])
                     return suggestion_list
                     break
             except:
