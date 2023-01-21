@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container mt-5 pt-5">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <h2>Destination</h2>
+                    <h4>{{ destination }}</h4>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <h2>Price</h2>
+                    <h4>{{ price }}</h4>
+                </div>
+            </div>
+        </div>
+
+    <div class="container mt-5 pt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="text-justify">Text content</h3>
+            </div>
+            <div class="col-md-6">
+                <h3 class="text-center">The Map</h3>
+                {{ m | safe }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -31,5 +31,6 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('home', views.home, name='home1'),
     path('airports', views.view_airports, name='airports'),
-    path('map', views.map, name="map")
+    path('map', views.map, name="map"),
+    path('suggestion', views.suggestion, name="suggestion")
 ]

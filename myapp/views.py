@@ -152,3 +152,9 @@ def map(request):
         data['m'] = m
     return render(request, "map.html", context=data)
 
+def suggestion(request):
+    data = dict()
+    data['destination'] = 'Tokyo' #value to be changed
+    data['price'] = '500' #value to be changed
+    return render(request, "suggestion.html", context=data)
+
