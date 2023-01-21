@@ -69,12 +69,12 @@ class Airport(models.Model):
         return self.code + " - " + self.name + " (" + self.name + ", " + self.country + ")"
 
 class SuggestedAttraction(models.Model):
-    city = models.CharField(max_length=50)
+    suggested_city = models.CharField(max_length=50)
     rank = models.IntegerField(default=0)
     attraction_name = models.CharField(max_length=50)
     attraction_url = models.URLField()
     attraction_imageurl = models.URLField()
     def __repr__(self):
-        return self.city + " " + str(self.rank) + " " + self.attraction_name
+        return self.suggested_city + " " + str(self.rank) + " " + self.attraction_name
     def __str__(self):
-        return self.city + " " + str(self.rank) + " " + self.attraction_name
+        return self.suggested_city + " " + str(self.rank) + " " + self.attraction_name
