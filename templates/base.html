@@ -6,13 +6,14 @@
     <title>Wanderlust</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'myapp/style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body>
-<nav class="navbar navbar-default navbar-fixed-top">
+<body onload="script()">
+<nav class="navbar py-4 navbar-default navbar-fixed-top">
   <div class="container" id="nav-container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -28,24 +29,42 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
         {% if user.username %}
-          <li><a href="{% url 'home' %}" class="user-buttons">Welcome, {{ user.username|capfirst }} </a></li>
-          <li><a href="{% url 'logout' %}" class="user-buttons">Logout</a></li>
+          <li><a href="{% url 'home' %}">Welcome, {{ user.username|capfirst }} </a></li>
+          <li><a href="{% url 'logout' %}">Log out</a></li>
         {% else %}
-        <li><a href="{% url 'register_user' %}" class="user-buttons">Register</a></li>
-            <li><a href="{% url 'login' %}" class="user-buttons">Login</a></li>
+            <li><a href="{% url 'login' %}">Log in</a></li>
+            <li><a href="{% url 'register_user' %}">Sign up</a></li>
           {% endif %}
       </ul>
     </div>
   </div>
 </nav>
 <!--<img src='{% static "myapp/CBSBanner.png" %}' alt="image" width="400px">-->
+<div></div>
 
-<h1 class="large-font">Welcome!</h1>
 {% block content %}
     <-- This is where the page content will go! -->
 {% endblock %}
     <div id="footer">
     ©2023 Columbia Business School. All Rights Reserved
     </div>
+
+<script>
+    function script(){
+        setTimeout(function() {
+            $(".slideanim").each(function(){
+                //var pos = $(this).offset().top;
+
+                $(this).addClass("slide");
+
+                //var winTop = $(window).scrollTop();
+                //if (pos < winTop + 600) {
+                //    $(this).addClass("slide");
+                //}
+            });
+        });
+    }
+</script>
+
 </body>
 </html>

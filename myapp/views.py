@@ -11,9 +11,8 @@ from myapp.models import Currency, AccountHolder, Airport
 
 def home(request):
     data = dict()
-    import datetime
-    time = datetime.datetime.now()
-    data["time_of_day"] = time
+    a_list = Airport.objects.all().order_by('code')
+    data["airports"] = a_list
     return render(request, "home.html", context=data)
 
 def maintenance(request):
@@ -151,6 +150,39 @@ def map(request):
         m = m._repr_html_
         data['m'] = m
     return render(request, "map.html", context=data)
+
+def wander(request):
+    data = dict()
+    from datetime import date
+    try:
+        origin = request.GET['origin']
+        origin = origin[0:3]
+        dep_date = request.GET['dep_date']
+        budget = float(request.GET['budget'])
+        print(origin)
+        print(dep_date)
+        print(budget)
+        #dep_date = date(dep_date_str[0:4], dep_date_str[5:7], dep_date_str[9:11])
+
+        try:
+            user = request.user
+            print(user.is_authenticated)
+            if user.is_authenticated:
+                print("reached this step")
+                wander_result = support_functions.random_suggestion(origin, dep_date, budget, [])
+                print(wander_result)
+                data = wander_result
+                return render(request, "suggestion.html", context=data)
+
+            return render(request, "register_prompt.html", context=data)
+
+        except:
+            pass
+
+    except:
+        pass
+
+    return render(request, "error.html", context=data)
 
 def suggestion(request):
     data = dict()
