@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron text-center" id="main-banner">
+    <div class="row"><h2 id="prompt-text">Please log in or sign up to view your result</h2></div>
+<div class="row">
+    <button type="submit" class="btn btn-default btn-lg" onclick="location.href = '{% url "login" %}'">Log in</button>
+    <button type="submit" class="btn btn-default btn-lg" onclick="location.href = '{% url "register_user" %}'">Sign up</button>
+</div>
+</div>
+{% endblock %}
+
