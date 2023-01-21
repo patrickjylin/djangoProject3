@@ -278,14 +278,14 @@ def ticket_search():
     min_value = min(travel_dict.values())
     print(min_value)
 
-def recommend_attraction(suggested_city):
+def recommend_attraction(destination_city):
     import requests
     from bs4 import BeautifulSoup
     from collections import defaultdict
     from IPython.display import Image
     import re
 
-    search_word = 'tripadvisor'+ suggested_city
+    search_word = 'tripadvisor'+ destination_city
     url_for_location_id = f'https://www.google.co.jp/search?hl=ja&num=1&q={search_word}'
     request = requests.get(url_for_location_id)
     soup = BeautifulSoup(request.text, "html.parser")
