@@ -11,9 +11,8 @@ from myapp.models import Currency, AccountHolder, Airport
 
 def home(request):
     data = dict()
-    import datetime
-    time = datetime.datetime.now()
-    data["time_of_day"] = time
+    a_list = Airport.objects.all().order_by('code')
+    data["airports"] = a_list
     return render(request, "home.html", context=data)
 
 def maintenance(request):

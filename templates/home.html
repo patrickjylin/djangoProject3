@@ -3,8 +3,26 @@
 {% block content %}
 <!--<img src='{% static "myapp/CBSBanner.png" %}'> -->
 
-<div class="jumbotron text-center">
-    <p>What a wonderful App this is!</p>
+<div class="jumbotron text-center" id="main-banner">
+    <div class="row"><h1 class="welcome-text slideanim">Wander with us</h1></div>
+    <div class="row">
+        <form class="form-inline">
+        <input type="text" name="origin" list="airports" class="form-control input-lg" placeholder="Airport of origin" required>
+            <datalist id="airports">
+                {% for a in airports %}
+                    {% if a.state|length > 0 %}
+                    <option>{{ a.code }} - {{ a.name }} ({{ a.city }}, {{ a.state }}, {{ a.country }})</option>
+                    {% else %}
+                    <option>{{ a.code }} - {{ a.name }} ({{ a.city }}, {{ a.country }})</option>
+                    {% endif %}
+                {% endfor %}
+            </datalist>
+            <input type="date" name="dep_date" class="form-control input-lg" placeholder="Date of travel" required>
+            <input type="number" name="budget" class="form-control input-lg" placeholder="Budget" required>
+        <button type="button" class="btn btn-default btn-lg">Wander</button>
+        </form>
+    </div>
+</div>
 </div>
 <div class="container">
     <div class="row">
