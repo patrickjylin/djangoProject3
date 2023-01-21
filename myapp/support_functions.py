@@ -245,18 +245,13 @@ def add_airports(airport_list):
 
         a.save()
 
-def ticket_search():
+def ticket_search(origin_code, random_airport, departure_date, budget):
     import requests
     from bs4 import BeautifulSoup
 
-    # variables #
-    origin = "JFK"  # needs to be an airport code
-    dest = "NRT"  # needs to be an airport code
-    date = "2023-02-14"
-
     # embed the above variables into the URL of "skyticket.com" #
     # fixed parameter = one-way, economy, 1 adult, 0 children, 0 infants #
-    target_url = "https://skyticket.com/international-flights/ia_fare_result_mix.php?select_career_only_flg=&trip_type=1&dep_port0=" + origin + "&arr_port0=" + dest + "&dep_date%5B%5D=" + date + "&cabin_class=Y&adt_pax=1"
+    target_url = "https://skyticket.com/international-flights/ia_fare_result_mix.php?select_career_only_flg=&trip_type=1&dep_port0=" + origin_code + "&arr_port0=" + random_airport + "&dep_date%5B%5D=" + departure_date + "&cabin_class=Y&adt_pax=1"
 
     response_test = requests.get(target_url)
     soup_test = BeautifulSoup(response_test.content)
@@ -268,15 +263,30 @@ def ticket_search():
 
     price_list = []
     for price in soup_test.find_all('span', class_="price_aside"):
-        price_list.append(float(price.get_text().replace(",", "")[3:]))
+        price_list.append(float(price.get_text().replace(",","")[3:]))
 
     # merge "airline_list" & "price_list" #
     travel_dict = {}
     for i in range(len(airline_list)):
         travel_dict[airline_list[i]] = price_list[i]
 
-    min_value = min(travel_dict.values())
-    print(min_value)
+    try:
+        min_value = min(travel_dict.values())
+    except:
+        min_value = ""
+
+    flight = ""
+    for t in travel_dict.keys():
+        if travel_dict[t] == min_value:
+            flight = t
+
+    min_ticket_price = [flight,min_value]
+
+    try:
+        if min_ticket_price[1] <= budget:
+             return min_ticket_price
+    except:
+        return min_ticket_price
 
 def recommend_attraction(destination_city):
     import requests
@@ -326,3 +336,25 @@ def recommend_attraction(destination_city):
             break
 
     return attraction
+
+def random_suggestion(origin_code, departure_date, budget, past_destination_airport_list):
+    import random
+    suggestion_list = {}
+
+    while True:
+        random_airport = random.choice(get_airport_list())['code']
+        if (random_airport in past_destination_airport_list) or (random_airport == origin_code):
+            continue
+        else:
+            try:
+                prechecked_price = ticket_search(origin_code, random_airport, departure_date, budget)[1]
+                suggestion_list['destination_airport_code'] = random_airport
+                suggestion_list['price'] = prechecked_price
+                suggestion_list['airline'] = ticket_search(origin_code, random_airport, departure_date, budget)[0]
+                if prechecked_price == '':
+                    continue
+                else:
+                    return suggestion_list
+                    break
+            except:
+                continue
