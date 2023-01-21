@@ -30,9 +30,9 @@
       <ul class="nav navbar-nav navbar-right">
         {% if user.username %}
           <li><a href="{% url 'home' %}">Welcome, {{ user.username|capfirst }} </a></li>
-          <li><a href="{% url 'logout' %}">Logout</a></li>
+          <li><a href="{% url 'logout' %}">Log out</a></li>
         {% else %}
-            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'login' %}">Log in</a></li>
             <li><a href="{% url 'register_user' %}">Sign up</a></li>
           {% endif %}
       </ul>

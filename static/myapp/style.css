@@ -4,15 +4,16 @@ h1 {
 }
 
 h2 {
-    font-family: 'Manrope'
+    font-family: 'Manrope';
+    color: inherit;
 }
 
 h3 {
-    font-family: 'Manrope'
+    font-family: 'Manrope';
 }
 
 p {
-    font-family: 'Manrope'
+    font-family: 'Manrope';
 }
 
 input {
@@ -20,7 +21,7 @@ input {
 }
 
 button {
-    font-family: 'Manrope'
+    font-family: 'Manrope';
 }
 
 body {
@@ -36,11 +37,6 @@ body {
     color: #fff;
     padding-top: 110px;
     margin-bottom: 30px;
-
-}
-
-.form-control {
-
 }
 
 #footer { /* use with id = "footer" */
@@ -111,6 +107,12 @@ body {
     background-position-y: bottom;
     background-size: cover;
     min-height: 600px;
+}
+
+#prompt-text {
+    color: white;
+    padding-top: 100px;
+    margin-bottom: 30px;
 }
 
 .slideanim {visibility:hidden;}

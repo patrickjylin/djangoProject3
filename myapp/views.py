@@ -151,3 +151,32 @@ def map(request):
         data['m'] = m
     return render(request, "map.html", context=data)
 
+def wander(request):
+    data = dict()
+    from datetime import date
+    try:
+        origin = request.GET['origin']
+        dep_date_str = request.GET['dep_date']
+        budget = request.GET['budget']
+        print(origin)
+        print(dep_date_str)
+        print(budget)
+        #dep_date = date(dep_date_str[0:4], dep_date_str[5:7], dep_date_str[9:11])
+
+        try:
+            user = request.user
+            if user.is_authenticated:
+                # placeholder for wander function
+                data['suggestion'] = []
+                return render(request, "suggestion.html", context=data)
+
+            return render(request, "register_prompt.html", context=data)
+
+        except:
+            pass
+
+    except:
+        pass
+
+    return render(request, "error.html", context=data)
+
