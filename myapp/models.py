@@ -36,9 +36,9 @@ class AccountHolder(models.Model):
     currencies_visited = models.ManyToManyField(Currency)
 
     countries_visited = models.CharField(max_length=50)
-    pre_destination_airport_code = models.CharField(max_length=3)
-    pre_destination_airport_name = models.CharField(max_length=50)
-    pre_destination_city = models.CharField(max_length=50)
+    past_destination_airport_code = models.CharField(max_length=3)
+    past_destination_airport_name = models.CharField(max_length=50)
+    past_destination_city = models.CharField(max_length=50)
 
     def __str__(self):
         return self.user.username
