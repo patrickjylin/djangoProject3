@@ -278,7 +278,7 @@ def ticket_search():
     min_value = min(travel_dict.values())
     print(min_value)
 
-def recommend_things_to_do(city):
+def recommend_attraction(city):
     import requests
     from bs4 import BeautifulSoup
     from collections import defaultdict
@@ -293,7 +293,7 @@ def recommend_things_to_do(city):
 
     tripadvisor_location_id = search_site[0]['href'].replace('/url?q=', '').split('-')[1]
 
-    things_to_do = {}
+    attraction = {}
 
     url_for_recommendation = f'https://www.tripadvisor.com/Attractions-{tripadvisor_location_id}'
     user_agent = ({'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) \AppleWebKit/537.36 (KHTML, like Gecko) \Chrome/90.0.4430.212 Safari/537.36','Accept-Language': 'en-US, en;q=0.5'})
@@ -305,7 +305,7 @@ def recommend_things_to_do(city):
     for thing in search_site_1:
         rank = int(thing.text.strip().split(".")[0])
         if not rank >= 4: ### pick up top 3 ###
-            things_to_do.setdefault(rank,[]).append(thing.text.strip().split(".")[1])
+            attraction.setdefault(rank,[]).append(thing.text.strip().split(".")[1])
         else:
             break
 
@@ -314,15 +314,15 @@ def recommend_things_to_do(city):
     for a in search_site_2:
         url_of_attraction = 'https://www.tripadvisor.com' + a.find('a', href=re.compile('Attraction_Review-')).attrs['href']
         if not search_site_2.index(a) +1 >= 4: ### pick up top 3 ###
-            things_to_do[search_site_2.index(a)+1].append(url_of_attraction)
+            attraction[search_site_2.index(a)+1].append(url_of_attraction)
 
             request = requests.get(url_of_attraction, headers = user_agent)
             soup = BeautifulSoup(request.text, 'html.parser')
             imgs = soup.findAll('img', src=re.compile('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/'))
             url_top_image = imgs[0]['src']
-            things_to_do[search_site_2.index(a)+1].append(url_top_image)
+            attraction[search_site_2.index(a)+1].append(url_top_image)
 
         else:
             break
 
-    return things_to_do
+    return attraction
