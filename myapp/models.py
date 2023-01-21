@@ -34,6 +34,12 @@ class AccountHolder(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date_of_birth = models.DateField()
     currencies_visited = models.ManyToManyField(Currency)
+
+    countries_visited = models.CharField(max_length=50)
+    pre_destination_airport_code = models.CharField(max_length=3)
+    pre_destination_airport_name = models.CharField(max_length=50)
+    pre_destination_city = models.CharField(max_length=50)
+
     def __str__(self):
         return self.user.username
     def __repr__(self):
@@ -67,6 +73,31 @@ class Airport(models.Model):
         if len(self.state) > 0:
             return self.code + " - " + self.name + " (" + self.city + ", " + self.state + ", " + self.country + ")"
         return self.code + " - " + self.name + " (" + self.name + ", " + self.country + ")"
+
+
+class SuggestedDestination(models.Model):
+    origin_code = models.CharField(max_length=3)
+    departure_date = models.DateField()
+    budget = models.FloatField(default=0.0)
+
+    destination_airport_code = models.CharField(max_length=3)
+    destination_airport_name = models.CharField(max_length=50)
+    destination_city = models.CharField(max_length=50)
+    price = models.FloatField(default=0.0)
+    airline = models.CharField(max_length=50)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    datetime_generated = models.DateTimeField()
+
+    rank = models.IntegerField(default=0)
+    attraction_name = models.CharField(max_length=50)
+    attraction_url = models.URLField()
+    attraction_imageurl = models.URLField()
+    def __repr__(self):
+        return self.destination_city + " " + str(self.rank) + " " + self.attraction_name
+    def __str__(self):
+        return self.destination_city + " " + str(self.rank) + " " + self.attraction_name
+
+
 
 class SuggestedAttraction(models.Model):
     destination_city = models.CharField(max_length=50)
