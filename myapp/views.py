@@ -82,8 +82,8 @@ def register_new_user(request):
     form = UserCreationForm(request.POST)
     if form.is_valid():
         new_user = form.save()
-        dob = request.POST["dob"]
-        acct_holder = AccountHolder(user=new_user, date_of_birth=dob)
+        #dob = request.POST["dob"]
+        acct_holder = AccountHolder(user=new_user, date_of_birth='2000-01-01')
         acct_holder.save()
         return render(request, "home.html", context=dict())
     else:
@@ -194,6 +194,7 @@ def wander(request):
                 else:
                     data['destination'] = d_city + ', ' + d_country
 
+                """    
                 data['attraction_1'] = 'Wow'
                 data['attraction_2'] = 'Wow'
                 data['attraction_3'] = 'Wow'
@@ -203,9 +204,9 @@ def wander(request):
                 data['attraction_1_image'] = ''
                 data['attraction_2_image'] = ''
                 data['attraction_3_image'] = ''
+                """
 
                 a = support_functions.recommend_attraction(d_city, d_state, d_country)
-                """
                 data['attraction_1'] = a[1][0]
                 data['attraction_2'] = a[2][0]
                 data['attraction_3'] = a[3][0]
@@ -215,7 +216,6 @@ def wander(request):
                 data['attraction_1_image'] = a[1][2]
                 data['attraction_2_image'] = a[2][2]
                 data['attraction_3_image'] = a[3][2]
-                """
                 print(a)
 
                 connecting_cities = list()

@@ -352,19 +352,38 @@ def recommend_attraction(city, state, country):
     from bs4 import BeautifulSoup
     from collections import defaultdict
     import re
+    from fake_useragent import UserAgent
+
+    ua = UserAgent()
 
     tripadvisor_location_id = get_tripadvisor_id(city, state, country)
 
     attraction = {}
 
     url_for_recommendation = "https://www.tripadvisor.com/Attractions-" + tripadvisor_location_id
-    user_agent = ({'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) \AppleWebKit/537.36 (KHTML, like Gecko) \Chrome/90.0.4430.212 Safari/537.36','Accept-Language': 'en-US, en;q=0.5'})
+    user_agent = ({'User-Agent':str(ua.chrome)})
 
     request_1 = requests.get(url_for_recommendation, headers = user_agent)
     soup_1 = BeautifulSoup(request_1.text, features='html.parser')
     search_site_1 = soup_1.findAll('div',{'class':'XfVdV o AIbhI'})
 
     print("search successful")
+
+    for i in range(3):
+        thing = search_site_1[i]
+        rank = i + 1
+        attraction.setdefault(rank,[]).append(thing.text.strip().split(". ")[1])
+
+        print("before find prev")
+        url = "https://www.tripadvisor.com" + thing.find_previous('a')['href']
+        img = thing.find_previous('img')['src']
+
+        print("after find prev")
+        attraction[rank].append(url)
+        attraction[rank].append(img)
+
+        print("append success")
+
 
     """
     for thing in search_site_1:
