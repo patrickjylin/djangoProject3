@@ -33,5 +33,6 @@ urlpatterns = [
     path('airports', views.view_airports, name='airports'),
     path('map', views.map, name="map"),
     path('wander', views.wander, name="wander"),
-    path('no-result', views.no_result, name="no-result")
+    path('no-result', views.no_result, name="no-result"),
+    path('suggestion', views.suggestion, name="suggestion")
 ]

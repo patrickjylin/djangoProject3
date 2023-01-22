@@ -1,48 +1,46 @@
 {% extends "base.html" %}
 {% block content %}
+        <div class="row">
+        <h1 style="text-align:center; font-weight: 500;">Pack your bags!</h1>
+        </div>
         <div class="container mt-5 pt-5">
             <div class="row">
                 <div class="col-sm-4">
-                    <div class="form-group">
-                        <h1 style="text-align:center">Destination</h1>
-                        <h1 style="text-align:center">{{ destination }} ({{ destination_airport_code }})</h1>
-                    </div>
+                        <h3 style="text-align: center; font-weight: 300;">Destination</h3>
+                        <h2 class="slideanim" style="text-align: center;">{{ destination }} ({{ destination_airport_code }})</h2>
                 </div>
                 <div class="col-sm-4">
-                    <div class="form-group">
-                        <h1 style="text-align:center">Price</h1>
-                        <h1 style="text-align:center">$ {{ price }}</h1>
-                    </div>
+                        <h3 style="text-align: center; font-weight: 300;">Price</h3>
+                        <h2 class="slideanim" style="text-align: center;">$ {{ price }}</h2>
                 </div>
-               <div class="col-sm-4">
-                    <div class="form-group">
-                        <h1 style="text-align:center">Airline</h1>
-                        <h1 style="text-align:center">{{ airline }}</h1>
-                    </div>
+                <div class="col-sm-4">
+                        <h3 style="text-align: center; font-weight: 300;">Airline</h3>
+                        <h2 class="slideanim" style="text-align: center;">{{ airline }}</h2>
                 </div>
             </div>
-                   <div class="container mt-5 pt-5">
+        </div>
+
+
+    <div class="container mt-5 pt-5">
                 <div class="row">
                     <div class="col-md-12">
-                        <h1 class="lobster" style="text-align:center">Top Attractions in {{ destination }}</h1>
+                        <h3 style="text-align:center; font-weight: 300;">Top Attractions in {{ destination }}</h3><br>
                     </div>
                 </div>
-            </div>
-                <div class="col-sm-4">
-                    <h1 style="text-align:center"><a href={{ attraction_1_url }}><u>{{ attraction_1 }}</u></a></h1>
-                    <p></p>
-                    <img src="{{ attraction_1_image }}" width="350" height="200">
+                <div class="col-sm-4" style="text-align: center;">
+                    <img src="{{ attraction_1_image }}" class="img-responsive slideanim">
+                <p></p>
+                <h3 style="text-align:center" class="slideanim"><a href={{ attraction_1_url }}><u>{{ attraction_1 }}</u></a></h3>
                 </div>
-                <div class="col-sm-4">
-                    <h1 style="text-align:center"><a href={{ attraction_2_url }}><u>{{ attraction_2 }}</u></a></h1>
-                    <p></p>
-                    <img src="{{ attraction_2_image }}" width="350" height="200">
+                <div class="col-sm-4" style="text-align: center;">
+                    <img src="{{ attraction_2_image }}" class="img-responsive slideanim">
+                <p></p>
+                <h3 style="text-align:center" class="slideanim"><a href={{ attraction_2_url }}><u>{{ attraction_2 }}</u></a></h3>
                 </div>
-                <div class="col-sm-4">
-                    <h1 style="text-align:center"><a href={{ attraction_3_url }}><u>{{ attraction_3 }}</u></a></h1>
-
-                    <p></p>
-                    <img src="{{ attraction_3_image }}" width="350" height="200">
+                <div class="col-sm-4" style="text-align: center;">
+                    <img src="{{ attraction_3_image }}" class="img-responsive slideanim">
+                <p></p>
+                <h3 style="text-align:center" class="slideanim"><a href={{ attraction_3_url }}><u>{{ attraction_3 }}</u></a></h3>
                 </div>
             </div>
 
@@ -51,12 +49,13 @@
                 <div class="col-md-2">
                 </div>
                 <div class="col-md-8" style="margin:0 auto">
-                    <h1 class="lobster" style="text-align:center">Your Journey</h1>
+                    <h3 style="text-align:center; font-weight: 300;">Your Journey</h3>
                     {{ ma | safe }}
                 </div>
                 <div class="col-md-2">
                 </div>
             </div>
         </div>
+
 {% endblock %}
 

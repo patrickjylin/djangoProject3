@@ -178,7 +178,7 @@ def wander(request):
                 if len(wander_result) == 0:
                     return render(request, "no_result.html", context=data)
                 data['destination_airport_code'] = wander_result['destination_airport_code']
-                data['price'] = wander_result['price']
+                data['price'] = int(wander_result['price'])
                 data['airline'] = wander_result['airline']
                 p1 = Airport.objects.get(code=origin)
                 o_city = p1.city
@@ -231,3 +231,7 @@ def no_result(request):
     data['budget'] = 100
     return render(request, "no_result.html", context=data)
 
+
+def suggestion(request):
+    data = dict()
+    return render(request, "suggestion.html", context=data)
