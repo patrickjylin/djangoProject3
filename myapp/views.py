@@ -225,3 +225,9 @@ def wander(request):
 
     return render(request, "error.html", context=data)
 
+
+def no_result(request):
+    data = dict()
+    data['budget'] = 100
+    return render(request, "no_result.html", context=data)
+
