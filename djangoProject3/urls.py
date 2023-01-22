@@ -32,5 +32,7 @@ urlpatterns = [
     path('home', views.home, name='home1'),
     path('airports', views.view_airports, name='airports'),
     path('map', views.map, name="map"),
-    path('wander', views.wander, name="wander")
+    path('wander', views.wander, name="wander"),
+    path('no-result', views.no_result, name="no-result"),
+    path('suggestion', views.suggestion, name="suggestion")
 ]

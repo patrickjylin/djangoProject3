@@ -76,8 +76,9 @@ def update_xrates(currency):
 
 def DMS_to_decimal(dms_coordinates):
     degrees = int(dms_coordinates.split('°')[0])
-    minutes = int(dms_coordinates.split('°')[1].split("′")[0])
+
     try:
+        minutes = int(dms_coordinates.split('°')[1].split("′")[0])
         seconds = int(dms_coordinates.split('°')[1].split("′")[1][:2])
     except:
         seconds = 0.0
@@ -94,42 +95,67 @@ def DMS_to_decimal(dms_coordinates):
         pass
     return decimal
 
-def get_lat_lon(city_name):
+def degrees_to_decimal(coordinate):
+    decimal = 0.0
+    try:
+        decimal = float(coordinate.split('°')[0])
+    except:
+        pass
+    try:
+        if coordinate[-1] == "S":
+            decimal = -decimal
+    except:
+        pass
+    try:
+        if coordinate[-1] == "W":
+            decimal = -decimal
+    except:
+        pass
+
+    return decimal
+
+
+
+def get_lat_lon(city, state, country):
     import requests
     from bs4 import BeautifulSoup
+    lat = 0
+    lon = 0
     try:
-        city = City.objects.get(name=city_name)
-        lat = city.latitude
-        lon = city.longitude
-        wiki_link = ""
-    except:
-        url = "https://en.wikipedia.org/wiki/"
-        url += city_name.replace(" ", "_")
-        wiki_link = url
-        try:
-            text = requests.get(url).text
-            soup = BeautifulSoup(text)
-            lat = soup.find('span', class_="latitude").get_text()
-            lon = soup.find('span', class_="longitude").get_text()
-            lat = DMS_to_decimal(lat)
-            lon = DMS_to_decimal(lon)
-        except:
-            lat = 0.0
-            lon = 0.0
-    return lat, lon, wiki_link
+        url = "https://www.google.com/search?q="
+        if len(state) > 0:
+            url += city.replace(" ", "+") + "+" + state.replace(" ", "+") + "+" + country.replace(" ", "+") + "+coordinates"
+        else:
+            url += city.replace(" ", "+") + "+" + country.replace(" ", "+") + "+coordinates"
 
-def add_markers(m,visiting_cities):
+        text = requests.get(url).text
+        soup = BeautifulSoup(text)
+
+        degree_tags = soup.find_all(lambda tag: len(tag.find_all()) == 0 and "°" in tag.text)
+
+        try:
+            lat_lon = degree_tags[0].get_text().split(', ')
+            lat = degrees_to_decimal(lat_lon[0])
+            lon = degrees_to_decimal(lat_lon[1])
+        except:
+            pass
+    except:
+        pass
+
+    return lat, lon
+
+def add_markers(m, city_list):
     import folium
     lat_lon_list = list()
-    for city_name in visiting_cities:
-        lat, lon, wiki_link = get_lat_lon(city_name)
-        print(city_name, lat, lon, wiki_link)
-        if lat != 0.0 and lon != 0.0 and wiki_link != "":
+    for place in city_list:
+        city = place[0]
+        state = place[1]
+        country = place[2]
+        lat, lon = get_lat_lon(city, state, country)
+        print(city, state, country, lat, lon)
+        if lat != 0.0 and lon != 0.0:
             icon = folium.Icon(color="blue", prefix="fa", icon="plane")
-            popup = "<a href="
-            popup += wiki_link
-            popup += ">" + city_name+ "</a>"
-            marker = folium.Marker((lat, lon), icon=icon, popup=popup)
+            marker = folium.Marker((lat, lon), icon=icon)
             marker.add_to(m)
             lat_lon_list.append([lat, lon])
     #Add line. First rearrange lat lons by longitude
@@ -139,6 +165,21 @@ def add_markers(m,visiting_cities):
         line_string.append([lat_lon_list[i],lat_lon_list[i+1]])
     line = folium.PolyLine(line_string, color="red", weight=5)
     line.add_to(m)
+
+    print('got thru line added')
+
+    sw_lat = min(lat_lon_list[0][0], lat_lon_list[1][0])
+    sw_lon = min(lat_lon_list[0][1], lat_lon_list[1][1])
+    ne_lat = max(lat_lon_list[0][0], lat_lon_list[1][0])
+    ne_lon = max(lat_lon_list[0][1], lat_lon_list[1][1])
+
+    sw = [sw_lat, sw_lon]
+    ne = [ne_lat, ne_lon]
+
+    m.fit_bounds([sw, ne])
+
+    print('finished mapping function')
+
     return m
 
 def get_airport_list():
@@ -306,44 +347,55 @@ def ticket_search(origin_code, random_airport, departure_date, budget):
     except:
         return min_ticket_price
 
-def recommend_attraction(destination_city):
+def recommend_attraction(city, state, country):
     import requests
     from bs4 import BeautifulSoup
     from collections import defaultdict
-    from IPython.display import Image
     import re
 
-    search_word = 'tripadvisor'+ destination_city
-    url_for_location_id = f'https://www.google.co.jp/search?hl=ja&num=1&q={search_word}'
+    search_word = 'tripadvisor'
+
+    if len(state) > 0:
+        search_word += "+" + city.replace(" ", "+") + "+" + state.replace(" ", "+") + "+" + country.replace(" ", "+")
+    else:
+        search_word += "+" + city.replace(" ", "+") + "+" + country.replace(" ", "+")
+    url_for_location_id = "https://www.google.com/search?num=1&q=" + search_word
     request = requests.get(url_for_location_id)
     soup = BeautifulSoup(request.text, "html.parser")
     search_site = soup.select('div.kCrYT > a')
 
     tripadvisor_location_id = search_site[0]['href'].replace('/url?q=', '').split('-')[1]
 
+    print(tripadvisor_location_id)
+
     attraction = {}
 
-    url_for_recommendation = f'https://www.tripadvisor.com/Attractions-{tripadvisor_location_id}'
+    url_for_recommendation = "https://www.tripadvisor.com/Attractions-" + tripadvisor_location_id
     user_agent = ({'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) \AppleWebKit/537.36 (KHTML, like Gecko) \Chrome/90.0.4430.212 Safari/537.36','Accept-Language': 'en-US, en;q=0.5'})
 
     request = requests.get(url_for_recommendation, headers = user_agent)
     soup = BeautifulSoup(request.text, 'html.parser')
     search_site_1 = soup.findAll('div',{'class':'XfVdV o AIbhI'})
 
+    print("search successful")
+
     for thing in search_site_1:
         rank = int(thing.text.strip().split(".")[0])
         if not rank >= 4: ### pick up top 3 ###
-            attraction.setdefault(rank,[]).append(thing.text.strip().split(".")[1])
+            attraction.setdefault(rank,[]).append(thing.text.strip().split(". ")[1])
         else:
             break
 
     search_site_2 = soup.findAll('div',{'class':'PFVlz'})
+
+    print("search_site_2 before loop")
 
     for a in search_site_2:
         url_of_attraction = 'https://www.tripadvisor.com' + a.find('a', href=re.compile('Attraction_Review-')).attrs['href']
         if not search_site_2.index(a) +1 >= 4: ### pick up top 3 ###
             attraction[search_site_2.index(a)+1].append(url_of_attraction)
 
+            print("check this")
             request = requests.get(url_of_attraction, headers = user_agent)
             soup = BeautifulSoup(request.text, 'html.parser')
             imgs = soup.findAll('img', src=re.compile('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/'))
