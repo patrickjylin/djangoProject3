@@ -39,6 +39,15 @@ body {
     margin-bottom: 30px;
 }
 
+#login-user {
+    color: #fff;
+}
+
+#login-title {
+    padding-top: 100px;
+    margin-bottom: 30px;
+}
+
 #footer { /* use with id = "footer" */
     display:inline-block;
     width:100%;
@@ -85,7 +94,7 @@ body {
 }
 
 .navbar li a, .navbar .navbar-brand {
-  color: #000 !important;
+  color: #000;
     transition: 0.3s;
     line-height: 50px;
 }

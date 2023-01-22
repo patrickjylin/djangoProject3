@@ -1,6 +1,62 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>This is the suggestion page</h1>
-    <h3>Result: {{ destination_airport_code }} {{ price }} {{ airline }}</h3>
+        <div class="container mt-5 pt-5">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <h1 style="text-align:center">Destination</h1>
+                        <h1 style="text-align:center">{{ destination }} ({{ destination_airport_code }})</h1>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <h1 style="text-align:center">Price</h1>
+                        <h1 style="text-align:center">$ {{ price }}</h1>
+                    </div>
+                </div>
+               <div class="col-sm-4">
+                    <div class="form-group">
+                        <h1 style="text-align:center">Airline</h1>
+                        <h1 style="text-align:center">{{ airline }}</h1>
+                    </div>
+                </div>
+            </div>
+                   <div class="container mt-5 pt-5">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="lobster" style="text-align:center">Top Attractions in {{ destination }}</h1>
+                    </div>
+                </div>
+            </div>
+                <div class="col-sm-4">
+                    <h1 style="text-align:center"><a href={{ attraction_1_url }}><u>{{ attraction_1 }}</u></a></h1>
+                    <p></p>
+                    <img src="{{ attraction_1_image }}" width="350" height="200">
+                </div>
+                <div class="col-sm-4">
+                    <h1 style="text-align:center"><a href={{ attraction_2_url }}><u>{{ attraction_2 }}</u></a></h1>
+                    <p></p>
+                    <img src="{{ attraction_2_image }}" width="350" height="200">
+                </div>
+                <div class="col-sm-4">
+                    <h1 style="text-align:center"><a href={{ attraction_3_url }}><u>{{ attraction_3 }}</u></a></h1>
+
+                    <p></p>
+                    <img src="{{ attraction_3_image }}" width="350" height="200">
+                </div>
+            </div>
+
+            <div class="container mt-5 pt-5">
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8" style="margin:0 auto">
+                    <h1 class="lobster" style="text-align:center">Your Journey</h1>
+                    {{ ma | safe }}
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+        </div>
 {% endblock %}
 

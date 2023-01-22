@@ -172,7 +172,7 @@ def wander(request):
             user = request.user
             print(user.is_authenticated)
             if user.is_authenticated:
-                print("reached this step")
+                print("user is authenticated")
                 wander_result = support_functions.random_suggestion(origin, dep_date, budget, [])
                 print(wander_result)
                 if len(wander_result) == 0:
@@ -180,6 +180,39 @@ def wander(request):
                 data['destination_airport_code'] = wander_result['destination_airport_code']
                 data['price'] = wander_result['price']
                 data['airline'] = wander_result['airline']
+                p1 = Airport.objects.get(code=origin)
+                o_city = p1.city
+                o_state = p1.state
+                o_country = p1.country
+                d_code = wander_result['destination_airport_code']
+                p2 = Airport.objects.get(code=d_code)
+                d_city = p2.city
+                d_state = p2.state
+                d_country = p2.country
+                if len(d_state) > 0:
+                    data['destination'] = d_city + ', ' + d_state + ', ' + d_country
+                else:
+                    data['destination'] = d_city + ', ' + d_country
+                connecting_cities = list()
+                connecting_cities.append([o_city, o_state, o_country])
+                connecting_cities.append([d_city, d_state, d_country])
+                ma = folium.Map()
+                ma = support_functions.add_markers(ma, connecting_cities)
+                ma = ma._repr_html_
+                data['ma'] = ma
+                print("finished mapping")
+
+                a = support_functions.recommend_attraction(d_city, d_state, d_country)
+                data['attraction_1'] = a[1][0]
+                data['attraction_2'] = a[2][0]
+                data['attraction_3'] = a[3][0]
+                data['attraction_1_url'] = a[1][1]
+                data['attraction_2_url'] = a[2][1]
+                data['attraction_3_url'] = a[3][1]
+                data['attraction_1_image'] = a[1][2]
+                data['attraction_2_image'] = a[2][2]
+                data['attraction_3_image'] = a[3][2]
+
                 return render(request, "suggestion.html", context=data)
 
             return render(request, "register_prompt.html", context=data)
