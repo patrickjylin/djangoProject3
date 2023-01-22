@@ -194,7 +194,15 @@ def wander(request):
                 else:
                     data['destination'] = d_city + ', ' + d_country
 
-
+                data['attraction_1'] = 'Wow'
+                data['attraction_2'] = 'Wow'
+                data['attraction_3'] = 'Wow'
+                data['attraction_1_url'] = ''
+                data['attraction_2_url'] = ''
+                data['attraction_3_url'] = ''
+                data['attraction_1_image'] = ''
+                data['attraction_2_image'] = ''
+                data['attraction_3_image'] = ''
 
                 a = support_functions.recommend_attraction(d_city, d_state, d_country)
                 """
