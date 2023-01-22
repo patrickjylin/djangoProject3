@@ -159,6 +159,10 @@ def wander(request):
         origin = origin[0:3]
         dep_date = request.GET['dep_date']
         budget = float(request.GET['budget'])
+
+        data['origin'] = origin
+        data['dep_date'] = dep_date
+        data['budget'] = int(budget)
         print(origin)
         print(dep_date)
         print(budget)
@@ -171,7 +175,11 @@ def wander(request):
                 print("reached this step")
                 wander_result = support_functions.random_suggestion(origin, dep_date, budget, [])
                 print(wander_result)
-                data = wander_result
+                if len(wander_result) == 0:
+                    return render(request, "no_result.html", context=data)
+                data['destination_airport_code'] = wander_result['destination_airport_code']
+                data['price'] = wander_result['price']
+                data['airline'] = wander_result['airline']
                 return render(request, "suggestion.html", context=data)
 
             return render(request, "register_prompt.html", context=data)
