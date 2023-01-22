@@ -353,20 +353,7 @@ def recommend_attraction(city, state, country):
     from collections import defaultdict
     import re
 
-    search_word = 'tripadvisor'
-
-    if len(state) > 0:
-        search_word += "+" + city.replace(" ", "+") + "+" + state.replace(" ", "+") + "+" + country.replace(" ", "+")
-    else:
-        search_word += "+" + city.replace(" ", "+") + "+" + country.replace(" ", "+")
-    url_for_location_id = "https://www.google.com/search?num=1&q=" + search_word
-    request = requests.get(url_for_location_id)
-    soup = BeautifulSoup(request.text, "html.parser")
-    search_site = soup.select('div.kCrYT > a')
-
-    tripadvisor_location_id = search_site[0]['href'].replace('/url?q=', '').split('-')[1]
-
-    print(tripadvisor_location_id)
+    tripadvisor_location_id = get_tripadvisor_id(city, state, country)
 
     attraction = {}
 
@@ -374,19 +361,20 @@ def recommend_attraction(city, state, country):
     user_agent = ({'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) \AppleWebKit/537.36 (KHTML, like Gecko) \Chrome/90.0.4430.212 Safari/537.36','Accept-Language': 'en-US, en;q=0.5'})
 
     request_1 = requests.get(url_for_recommendation, headers = user_agent)
-    soup_1 = BeautifulSoup(request_1.text, 'html.parser')
+    soup_1 = BeautifulSoup(request_1.text, features='html.parser')
     search_site_1 = soup_1.findAll('div',{'class':'XfVdV o AIbhI'})
 
     print("search successful")
 
+    """
     for thing in search_site_1:
         rank = int(thing.text.strip().split(".")[0])
         if not rank >= 4: ### pick up top 3 ###
             attraction.setdefault(rank,[]).append(thing.text.strip().split(". ")[1])
         else:
             break
-
-    search_site_2 = soup.findAll('div',{'class':'PFVlz'})
+            
+    search_site_2 = soup_1.findAll('div',{'class':'PFVlz'})
 
     print("search_site_2 before loop")
 
@@ -404,8 +392,31 @@ def recommend_attraction(city, state, country):
 
         else:
             break
+    """
 
     return attraction
+
+def get_tripadvisor_id(city, state, country):
+    import requests
+    from bs4 import BeautifulSoup
+
+    search_word = 'tripadvisor'
+
+    if len(state) > 0:
+        search_word += "+" + city.replace(" ", "+") + "+" + state.replace(" ", "+") + "+" + country.replace(" ", "+")
+    else:
+        search_word += "+" + city.replace(" ", "+") + "+" + country.replace(" ", "+")
+    url_for_location_id = "https://www.google.com/search?num=1&q=" + search_word
+    request = requests.get(url_for_location_id)
+    soup = BeautifulSoup(request.text, "html.parser")
+    search_site = soup.select('div.kCrYT > a')
+
+    tripadvisor_location_id = search_site[0]['href'].replace('/url?q=', '').split('-')[1]
+
+    print(tripadvisor_location_id)
+
+    return tripadvisor_location_id
+
 
 def random_suggestion(origin_code, departure_date, budget, past_destination_airport_list):
     import random
