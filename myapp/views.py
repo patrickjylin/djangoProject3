@@ -180,6 +180,30 @@ def wander(request):
                 data['destination_airport_code'] = wander_result['destination_airport_code']
                 data['price'] = wander_result['price']
                 data['airline'] = wander_result['airline']
+                o_code = request.Get['origin']
+                p1 = Airport.objects.get(code=o_code)
+                o_city = p1.city
+                d_code = wander_result['destination_airport_code']
+                p2 = Airport.objects.get(code=d_code)
+                d_city = p2.city
+                connecting_cities = list()
+                connecting_cities.append(p1)
+                connecting_cities.append(p2)
+                ma = folium.Map()
+                ma = support_functions.add_markers(ma, connecting_cities)
+                ma = ma._repr_html_
+                data['ma'] = ma
+                a = support_functions.recommend_attraction(d_code)
+                data['attraction_1'] = a[1][0]
+                data['attraction_2'] = a[2][0]
+                data['attraction_3'] = a[3][0]
+                data['attraction_1_url'] = a[1][1]
+                data['attraction_2_url'] = a[2][1]
+                data['attraction_3_url'] = a[3][1]
+                data['attraction_1_image'] = a[1][2]
+                data['attraction_2_image'] = a[2][2]
+                data['attraction_3_image'] = a[3][2]
+
                 return render(request, "suggestion.html", context=data)
 
             return render(request, "register_prompt.html", context=data)
@@ -192,9 +216,4 @@ def wander(request):
 
     return render(request, "error.html", context=data)
 
-def suggestion(request):
-    data = dict()
-    data['destination'] = 'Tokyo' #value to be changed
-    data['price'] = '500' #value to be changed
-    return render(request, "suggestion.html", context=data)
 

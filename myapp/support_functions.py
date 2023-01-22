@@ -387,3 +387,4 @@ def random_suggestion(origin_code, departure_date, budget, past_destination_airp
                 continue
 
     return {}
+
