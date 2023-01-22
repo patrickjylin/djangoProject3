@@ -194,29 +194,21 @@ def wander(request):
                 else:
                     data['destination'] = d_city + ', ' + d_country
 
-                """    
-                data['attraction_1'] = 'Wow'
-                data['attraction_2'] = 'Wow'
-                data['attraction_3'] = 'Wow'
-                data['attraction_1_url'] = ''
-                data['attraction_2_url'] = ''
-                data['attraction_3_url'] = ''
-                data['attraction_1_image'] = ''
-                data['attraction_2_image'] = ''
-                data['attraction_3_image'] = ''
-                """
-
                 a = support_functions.recommend_attraction(d_city, d_state, d_country)
-                data['attraction_1'] = a[1][0]
-                data['attraction_2'] = a[2][0]
-                data['attraction_3'] = a[3][0]
-                data['attraction_1_url'] = a[1][1]
-                data['attraction_2_url'] = a[2][1]
-                data['attraction_3_url'] = a[3][1]
-                data['attraction_1_image'] = a[1][2]
-                data['attraction_2_image'] = a[2][2]
-                data['attraction_3_image'] = a[3][2]
-                print(a)
+                try:
+
+                    data['attraction_1'] = a[1][0]
+                    data['attraction_2'] = a[2][0]
+                    data['attraction_3'] = a[3][0]
+                    data['attraction_1_url'] = a[1][1]
+                    data['attraction_2_url'] = a[2][1]
+                    data['attraction_3_url'] = a[3][1]
+                    data['attraction_1_image'] = a[1][2]
+                    data['attraction_2_image'] = a[2][2]
+                    data['attraction_3_image'] = a[3][2]
+                    print(a)
+                except:
+                    pass
 
                 connecting_cities = list()
                 connecting_cities.append([o_city, o_state, o_country])
