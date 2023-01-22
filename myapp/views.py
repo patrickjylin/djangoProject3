@@ -195,7 +195,9 @@ def wander(request):
                     data['destination'] = d_city + ', ' + d_country
 
 
+
                 a = support_functions.recommend_attraction(d_city, d_state, d_country)
+                """
                 data['attraction_1'] = a[1][0]
                 data['attraction_2'] = a[2][0]
                 data['attraction_3'] = a[3][0]
@@ -205,6 +207,8 @@ def wander(request):
                 data['attraction_1_image'] = a[1][2]
                 data['attraction_2_image'] = a[2][2]
                 data['attraction_3_image'] = a[3][2]
+                """
+                print(a)
 
                 connecting_cities = list()
                 connecting_cities.append([o_city, o_state, o_country])
