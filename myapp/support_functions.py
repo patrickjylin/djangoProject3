@@ -353,23 +353,57 @@ def recommend_attraction(city, state, country):
     from collections import defaultdict
     import re
 
-    tripadvisor_location_id = get_tripadvisor_id(city, state, country)
+    #tripadvisor_location_id = get_tripadvisor_id(city, state, country)
 
-    attraction = {}
+    attraction = []
 
-    url_for_recommendation = "https://www.tripadvisor.com/Attractions-" + tripadvisor_location_id
+    search_word = ""
+
+    if len(state) > 0:
+        search_word += "+" + city.replace(" ", "+") + "+" + state.replace(" ", "+") + "+" + country.replace(" ", "+")
+    else:
+        search_word += "+" + city.replace(" ", "+") + "+" + country.replace(" ", "+")
+
+    search_word += "+top+attractions"
+
+    url_for_search = "https://www.google.com/search?q=" + search_word
+
+    #url_for_recommendation = "https://www.tripadvisor.com/Attractions-" + tripadvisor_location_id
     user_agent = {'User-Agent':"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36"}
 
-    request_1 = requests.get(url_for_recommendation, headers = user_agent)
+    request_1 = requests.get(url_for_search, headers = user_agent)
+
     try:
         soup_1 = BeautifulSoup(request_1.text, features='html.parser')
-        search_site_1 = soup_1.findAll('div',{'class':'XfVdV o AIbhI'})
+        search_site_1 = soup_1.findAll('span',{'class':'aVSTQd'})
+
+        url_2 = search_site_1[0].find_previous('a')['href']
+        url_2 = "https://www.google.com" + url_2
+
+        request_2 = requests.get(url_2)
+        soup_2 = BeautifulSoup(request_2.text, features='html.parser')
+
+        places = soup_2.find_all('div', {'class': 'skFvHc'})
+
+        for i in range(3):
+            place_name = places[i].get_text()
+            print(place_name)
+
+            img = places[i].find_previous('img')
+            img_url = img['data-src']
+
+            print(img_url)
+
+            attraction.append([place_name, img_url, img_url])
+
+
 
         print("search successful")
 
     except:
         pass
 
+    """
     try:
         for i in range(3):
             thing = search_site_1[i]
@@ -388,7 +422,7 @@ def recommend_attraction(city, state, country):
 
     except:
         pass
-
+    """
     return attraction
 
 
