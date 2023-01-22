@@ -375,32 +375,32 @@ def recommend_attraction(city, state, country):
 
     request = requests.get(url_for_recommendation, headers = user_agent)
     soup = BeautifulSoup(request.text, 'html.parser')
-    search_site_1 = soup.findAll('div',{'class':'XfVdV o AIbhI'})
+    search_site = soup.findAll('div',{'class':'XfVdV o AIbhI'})
 
     print("search successful")
 
-    for thing in search_site_1:
+    for thing in search_site:
         rank = int(thing.text.strip().split(".")[0])
         if not rank >= 4: ### pick up top 3 ###
             attraction.setdefault(rank,[]).append(thing.text.strip().split(". ")[1])
         else:
             break
 
-    search_site_2 = soup.findAll('div',{'class':'PFVlz'})
+    search_site = soup.findAll('div',{'class':'PFVlz'})
 
     print("search_site_2 before loop")
 
-    for a in search_site_2:
+    for a in search_site:
         url_of_attraction = 'https://www.tripadvisor.com' + a.find('a', href=re.compile('Attraction_Review-')).attrs['href']
-        if not search_site_2.index(a) +1 >= 4: ### pick up top 3 ###
-            attraction[search_site_2.index(a)+1].append(url_of_attraction)
+        if not search_site.index(a) +1 >= 4: ### pick up top 3 ###
+            attraction[search_site.index(a)+1].append(url_of_attraction)
 
             print("check this")
             request = requests.get(url_of_attraction, headers = user_agent)
             soup = BeautifulSoup(request.text, 'html.parser')
             imgs = soup.findAll('img', src=re.compile('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/'))
             url_top_image = imgs[0]['src']
-            attraction[search_site_2.index(a)+1].append(url_top_image)
+            attraction[search_site.index(a)+1].append(url_top_image)
 
         else:
             break
