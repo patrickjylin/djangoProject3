@@ -392,7 +392,7 @@ def recommend_attraction(city, state, country):
             img = places[i].find_previous('img')
             img_url = img['data-src']
 
-            place_search_url = "https://www.google.com/search?q=" + place_name
+            place_search_url = ("https://www.google.com/search?q=" + place_name).replace(' ', '+')
 
             print(img_url)
             print(place_search_url)
