@@ -17,7 +17,7 @@
                     {% endif %}
                 {% endfor %}
             </datalist>
-            <input type="date" name="dep_date" class="form-control input-lg" placeholder="Date of travel" required>
+            <input type="date" name="dep_date" class="form-control input-lg" placeholder="Date of travel" min="2023-01-30" max="2023-12-31" required>
             <input type="number" name="budget" class="form-control input-lg" placeholder="Budget (one-way)" required>
         <button type="submit" class="btn btn-default btn-lg">Wander</button>
         </form>
