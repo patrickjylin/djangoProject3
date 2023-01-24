@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>This is the error page</h1>
+    <div style="background-image: url('https://static-cse.canva.com/blob/982541/00winterlandscapes_featimage.jpg');
+background-size: cover; min-height: 600px; background-position-y: center;"
+         class="jumbotron text-center">
+    <div class="row"><h2 style="color: black; padding-top: 5%; margin-bottom: 2%;">Oops, something strange happened.<br>
+    Try adjusting your inputs or try wandering again.</h2></div>
+<div class="row">
+    <button type="submit" class="btn btn-default btn-lg" onclick="location.reload()">Wander again</button>
+    <button type="submit" class="btn btn-default btn-lg" onclick="location.href = '{% url "home" %}'">Go back</button>
+</div>
+</div>
 {% endblock %}
-

@@ -194,9 +194,8 @@ def wander(request):
                 else:
                     data['destination'] = d_city + ', ' + d_country
 
-                a = support_functions.recommend_attraction(d_city, d_state, d_country)
                 try:
-
+                    a = support_functions.recommend_attraction(d_city, d_state, d_country)
                     data['attraction_1'] = a[0][0]
                     data['attraction_2'] = a[1][0]
                     data['attraction_3'] = a[2][0]
@@ -210,14 +209,17 @@ def wander(request):
                 except:
                     pass
 
-                connecting_cities = list()
-                connecting_cities.append([o_city, o_state, o_country])
-                connecting_cities.append([d_city, d_state, d_country])
-                ma = folium.Map()
-                ma = support_functions.add_markers(ma, connecting_cities)
-                ma = ma._repr_html_
-                data['ma'] = ma
-                print("finished mapping")
+                try:
+                    connecting_cities = list()
+                    connecting_cities.append([o_city, o_state, o_country])
+                    connecting_cities.append([d_city, d_state, d_country])
+                    ma = folium.Map()
+                    ma = support_functions.add_markers(ma, connecting_cities)
+                    ma = ma._repr_html_
+                    data['ma'] = ma
+                    print("finished mapping")
+                except:
+                    pass
 
                 return render(request, "suggestion.html", context=data)
 
