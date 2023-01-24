@@ -122,7 +122,7 @@ def get_lat_lon(city, state, country):
     lat = 0
     lon = 0
     try:
-        url = "https://www.google.com/search?num=1&q="
+        url = "https://www.google.com/search?q="
         if len(state) > 0:
             url += city.replace(" ", "+") + "+" + state.replace(" ", "+") + "+" + country.replace(" ", "+") + "+coordinates"
         else:
