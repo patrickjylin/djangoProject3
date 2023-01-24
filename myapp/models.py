@@ -35,11 +35,6 @@ class AccountHolder(models.Model):
     date_of_birth = models.DateField()
     currencies_visited = models.ManyToManyField(Currency)
 
-    countries_visited = models.CharField(max_length=50)
-    past_destination_airport_code = models.CharField(max_length=3)
-    past_destination_airport_name = models.CharField(max_length=50)
-    past_destination_city = models.CharField(max_length=50)
-
     def __str__(self):
         return self.user.username
     def __repr__(self):
