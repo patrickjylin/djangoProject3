@@ -153,11 +153,10 @@ def add_markers(m, city_list):
         country = place[2]
         lat, lon = get_lat_lon(city, state, country)
         print(city, state, country, lat, lon)
-        if lat != 0.0 and lon != 0.0:
-            icon = folium.Icon(color="blue", prefix="fa", icon="plane")
-            marker = folium.Marker((lat, lon), icon=icon)
-            marker.add_to(m)
-            lat_lon_list.append([lat, lon])
+        icon = folium.Icon(color="blue", prefix="fa", icon="plane")
+        marker = folium.Marker((lat, lon), icon=icon)
+        marker.add_to(m)
+        lat_lon_list.append([lat, lon])
     #Add line. First rearrange lat lons by longitude
     lat_lon_list.sort(key=lambda x: x[1])
     line_string = list()
@@ -168,10 +167,16 @@ def add_markers(m, city_list):
 
     print('got thru line added')
 
-    sw_lat = min(lat_lon_list[0][0], lat_lon_list[1][0])
-    sw_lon = min(lat_lon_list[0][1], lat_lon_list[1][1])
-    ne_lat = max(lat_lon_list[0][0], lat_lon_list[1][0])
-    ne_lon = max(lat_lon_list[0][1], lat_lon_list[1][1])
+    lats = []
+    lons = []
+    for i in lat_lon_list:
+        lats.append(i[0])
+        lons.append(i[1])
+
+    sw_lat = min(lats)
+    sw_lon = min(lons)
+    ne_lat = max(lats)
+    ne_lon = max(lons)
 
     sw = [sw_lat, sw_lon]
     ne = [ne_lat, ne_lon]
